@@ -71,7 +71,7 @@ const updatePostById = async (req, res, next) => {
    })
 
     const {error} = postSchema.validate(req.body)
-    if(error) return res.status(400).json({Error: "Please provide information to be replaced."})
+    if(error || !req.body) return res.status(400).json({Error: "Please provide information to be replaced."})
     const updatedPost = await postModel.findByIdAndUpdate(req.params.id, {...req.body}, {new: true, runValidators: true})
 
     if (!updatedPost) return res.status(404).json({Message: `Post with ID ${req.params.id} does not exist`})
